@@ -31817,6 +31817,7 @@ var __webpack_exports__ = {};
 var exports = __webpack_exports__;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.run = run;
 const core_1 = __nccwpck_require__(7484);
 const github_1 = __nccwpck_require__(3228);
 async function run() {
@@ -31838,14 +31839,16 @@ async function run() {
             owner: github_1.context.repo.owner,
             repo: github_1.context.repo.repo,
             issue_number: pullRequest.number,
-            labels: [label]
+            labels: [label],
         });
     }
     catch (error) {
         (0, core_1.setFailed)((_a = error === null || error === void 0 ? void 0 : error.message) !== null && _a !== void 0 ? _a : "Unknown error");
     }
 }
-run();
+if (!process.env.JEST_WORKER_ID) {
+    run();
+}
 
 })();
 

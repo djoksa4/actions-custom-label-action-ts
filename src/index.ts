@@ -1,7 +1,7 @@
 import { getInput, setFailed } from "@actions/core";
 import { context, getOctokit} from "@actions/github";
 
-async function run() {
+export async function run() {
     // fetch inputs
     const token = getInput("gh-token");
     const label = getInput("label");
@@ -22,11 +22,13 @@ async function run() {
             owner: context.repo.owner,
             repo: context.repo.repo,
             issue_number: pullRequest.number,
-            labels: [label]
+            labels: [label],
         });
     } catch (error) {
         setFailed((error as Error)?.message ?? "Unknown error");
     }
 }
 
-run();
+if (!process.env.JEST_WORKER_ID) {
+    run();
+  }
